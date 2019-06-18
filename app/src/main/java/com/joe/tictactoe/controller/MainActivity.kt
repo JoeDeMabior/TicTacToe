@@ -1,7 +1,8 @@
-package com.joe.tictactoe
+package com.joe.tictactoe.controller
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.joe.tictactoe.R
 
 class MainActivity : AppCompatActivity() {
 
