@@ -10,7 +10,7 @@
     android:paddingTop="44dp"
     android:paddingEnd="16dp"
     android:paddingBottom="44dp"
-    tools:context=".controller.MainActivity">
+    tools:context=".view.MainActivity">
 
     <GridLayout
         android:id="@+id/button_grid"
