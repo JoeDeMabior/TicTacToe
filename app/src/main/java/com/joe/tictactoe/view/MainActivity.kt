@@ -10,19 +10,35 @@ import android.widget.Button
 import com.joe.tictactoe.R
 import com.joe.tictactoe.model.Board
 import com.joe.tictactoe.model.Player
+import com.joe.tictactoe.presenter.TicTacToePresenter
 import kotlinx.android.synthetic.main.activity_main.*
 
 const val TAG: String = "TicTacToe"
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), TicTacToeView {
 
-    private var model: Board? = null
+    private val presenter: TicTacToePresenter = TicTacToePresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        model = Board()
+        presenter.onCreate()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        presenter.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.onResume()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -33,7 +49,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             R.id.action_reset -> {
-                reset()
+                presenter.onResetSelected()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -47,26 +63,28 @@ class MainActivity : AppCompatActivity() {
         val col = Integer.valueOf(tag.substring(1, 2).toInt())
         Log.i(TAG, "Click Row: [$row, $col]")
 
-        val playerThatMoved: Player? = model?.mark(row, col)
-
-        if (playerThatMoved != null) {
-            button.text = playerThatMoved.toString()
-            if (model?.getWinner() != null) {
-                winnerPlayerLabel.text = playerThatMoved.toString()
-                winnerPlayerViewGroup.visibility = View.VISIBLE
-            }
-        }
+        presenter.onButtonSelected(row, col)
     }
 
-    private fun reset() {
+    override fun showWinner(winningPlayerDisplayLabel: String) {
+        winnerPlayerLabel.text = winningPlayerDisplayLabel
+        winnerPlayerViewGroup.visibility = View.VISIBLE
+    }
+
+    override fun clearWinnerDisplay() {
         winnerPlayerViewGroup.visibility = View.GONE
         winnerPlayerLabel.text = ""
+    }
 
-        model?.restart()
-
-        for (i in 0 until button_grid.childCount) {
+    override fun clearButtons() {
+        for (i in 0 until button_grid.childCount)
             (button_grid.getChildAt(i) as Button).text = ""
-        }
+    }
+
+    override fun setButtonText(row: Int, col: Int, text: String) {
+        val button = button_grid.findViewWithTag<Button>("" + row + col)
+        if (button != null)
+            button.text = text
     }
 
 }
