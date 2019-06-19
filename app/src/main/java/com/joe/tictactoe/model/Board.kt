@@ -2,7 +2,7 @@ package com.joe.tictactoe.model
 
 import com.joe.tictactoe.model.Player.*
 
-class Board() {
+class Board {
 
     var cells: Array<Array<Cell?>> = Array(3) { arrayOfNulls<Cell>(3) }
     private var winner: Player? = null
@@ -29,19 +29,25 @@ class Board() {
      * @param row 0..2
      * @param col 0..2
      */
-    fun mark(row: Int, col: Int) {
+    fun mark(row: Int, col: Int): Player? {
+        var playerThatMoved: Player? = null
+
         if (isValid(row, col)) {
             cells[row][col]?.value = currentTurn
+            playerThatMoved = currentTurn
+
             if (isWinningMoveByPlayer(currentTurn!!, row, col)) {
                 state = GameState.FINISHED
                 winner = currentTurn
             } else
                 flipCurrentTurn()
         }
+
+        return playerThatMoved
     }
 
-    fun getWinner(): Player {
-        return winner!!
+    fun getWinner(): Player? {
+        return winner
     }
 
     private fun clearCells() {
@@ -91,8 +97,8 @@ class Board() {
                 && cells[2][0]?.value == player
     }
 
-    private fun flipCurrentTurn(): Player {
-        return if (currentTurn == X) O else X
+    private fun flipCurrentTurn() {
+        currentTurn = if (currentTurn == X) O else X
     }
 
 
