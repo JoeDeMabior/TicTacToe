@@ -8,9 +8,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import com.joe.tictactoe.R
-import com.joe.tictactoe.model.Board
-import com.joe.tictactoe.model.Player
-import com.joe.tictactoe.presenter.TicTacToePresenter
 import kotlinx.android.synthetic.main.activity_main.*
 
 const val TAG: String = "TicTacToe"
