@@ -1,95 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tictactoe"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingStart="16dp"
-    android:paddingTop="44dp"
-    android:paddingEnd="16dp"
-    android:paddingBottom="44dp"
-    tools:context=".view.MainActivity">
+<layout>
 
-    <GridLayout
-        android:id="@+id/button_grid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:columnCount="3"
-        android:rowCount="3">
+    <data>
 
-        <Button
-            style="@style/tictactoebutton"
-            android:onClick="onCellClicked"
-            android:tag="00" />
+        <import type="android.view.View" />
 
-        <Button
-            style="@style/tictactoebutton"
-            android:onClick="onCellClicked"
-            android:tag="01" />
+        <variable
+            name="viewModel"
+            type="com.joe.tictactoe.viewmodel.TicTacToeViewModel" />
+    </data>
 
-        <Button
-            style="@style/tictactoebutton"
-            android:onClick="onCellClicked"
-            android:tag="02" />
-
-        <Button
-            style="@style/tictactoebutton"
-            android:onClick="onCellClicked"
-            android:tag="10" />
-
-        <Button
-            style="@style/tictactoebutton"
-            android:onClick="onCellClicked"
-            android:tag="11" />
-
-        <Button
-            style="@style/tictactoebutton"
-            android:onClick="onCellClicked"
-            android:tag="12" />
-
-        <Button
-            style="@style/tictactoebutton"
-            android:onClick="onCellClicked"
-            android:tag="20" />
-
-        <Button
-            style="@style/tictactoebutton"
-            android:onClick="onCellClicked"
-            android:tag="21" />
-
-        <Button
-            style="@style/tictactoebutton"
-            android:onClick="onCellClicked"
-            android:tag="22" />
-
-    </GridLayout>
-
-    <LinearLayout
-        android:id="@+id/winnerPlayerViewGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/tictactoe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:paddingStart="16dp"
+        android:paddingTop="44dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="44dp"
+        tools:context=".view.MainActivity">
 
-        <TextView
-            android:id="@+id/winnerPlayerLabel"
+        <GridLayout
+            android:id="@+id/button_grid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:textSize="40sp"
-            tools:text="X" />
+            android:columnCount="3"
+            android:rowCount="3">
 
-        <TextView
+            <Button
+                style="@style/tictactoebutton"
+                android:onClick="@{() -> viewModel.onClickedCellAt(0, 0)}"
+                android:text="@{viewModel.cells[00]}" />
+
+            <Button
+                style="@style/tictactoebutton"
+                android:onClick="@{() -> viewModel.onClickedCellAt(0, 1)}"
+                android:text="@{viewModel.cells[01]}" />
+
+            <Button
+                style="@style/tictactoebutton"
+                android:onClick="@{() -> viewModel.onClickedCellAt(0, 2)}"
+                android:text="@{viewModel.cells[01]}" />
+
+            <Button
+                style="@style/tictactoebutton"
+                android:onClick="@{() -> viewModel.onClickedCellAt(1, 0)}"
+                android:text="@{viewModel.cells[10]}" />
+
+            <Button
+                style="@style/tictactoebutton"
+                android:onClick="@{() -> viewModel.onClickedCellAt(1, 1)}"
+                android:text="@{viewModel.cells[11]}" />
+
+            <Button
+                style="@style/tictactoebutton"
+                android:onClick="@{() -> viewModel.onClickedCellAt(1, 2)}"
+                android:text="@{viewModel.cells[12]}" />
+
+            <Button
+                style="@style/tictactoebutton"
+                android:onClick="@{() -> viewModel.onClickedCellAt(2, 0)}"
+                android:text="@{viewModel.cells[20]}" />
+
+            <Button
+                style="@style/tictactoebutton"
+                android:onClick="@{() -> viewModel.onClickedCellAt(2, 1)}"
+                android:text="@{viewModel.cells[21]}" />
+
+            <Button
+                style="@style/tictactoebutton"
+                android:onClick="@{() -> viewModel.onClickedCellAt(2, 2)}"
+                android:text="@{viewModel.cells[22]}" />
+
+        </GridLayout>
+
+        <LinearLayout
+            android:id="@+id/winnerPlayerViewGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/winner"
-            android:textSize="30sp" />
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="@{viewModel.winner != null ? View.VISIBLE : View.GONE}"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/winnerPlayerLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@{viewModel.winner}"
+                android:textSize="40sp"
+                tools:text="X" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/winner"
+                android:textSize="30sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</layout>
